@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { TaskList } from '../../components/TaskList'
+import TaskList from '../../components/TaskList'
 
 describe('<TaskList />', () => {
     it('should be able to add a task', async () => {

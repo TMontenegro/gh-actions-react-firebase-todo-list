@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { FiCheckSquare } from 'react-icons/fi'
 
-import '../styles/tasklist.scss'
+import CurrentTask from './CurrentTask'
 
-import { FiTrash, FiCheckSquare } from 'react-icons/fi'
+import '../../styles/tasklist.scss'
 
 interface Task {
     id: number
@@ -10,11 +11,11 @@ interface Task {
     isCompleted: boolean
 }
 
-export function TaskList () {
+export default function TaskList () {
     const [tasks, setTasks] = useState<Task[]>([])
     const [newTaskTitle, setNewTaskTitle] = useState('')
 
-    function handleCreateTask() {
+    function createTask() {
         if(newTaskTitle === '') return;
 
         setTasks([
@@ -29,7 +30,7 @@ export function TaskList () {
         setNewTaskTitle('');
     }
     
-    function handleToglleTask(id: number) {
+    function toggleTask(id: number) {
         const handledToggledTasks: Task[] = tasks.map((task) => {
             if(task.id === id) task.isCompleted = !task.isCompleted;
       
@@ -39,7 +40,7 @@ export function TaskList () {
         setTasks(handledToggledTasks);
     }
     
-    function handleRemoveTask(id: number) {
+    function removeTask(id: number) {
         const handledRemovedTasks: Task[] = tasks.filter(
             ({ id: taskId }) => taskId !== id
         )
@@ -60,7 +61,7 @@ export function TaskList () {
                         onChange={(e) => setNewTaskTitle(e.target.value)}
                         value={newTaskTitle}
                     />
-                    <button type="button" data-testid="add-task-button" onClick={() => handleCreateTask()}>
+                    <button type="button" data-testid="add-task-button" onClick={() => createTask()}>
                         <FiCheckSquare size={16} color="#fff" />
                     </button>
                 </div>
@@ -68,25 +69,13 @@ export function TaskList () {
 
             <main>
                 <ul>
-                    {tasks.map(({id, title, isCompleted}) => (
-                        <li key={id}>
-                            <div className={isCompleted ? 'completed' : ''} data-testid="task">
-                                <label className="checkbox-container">
-                                    <input 
-                                        type="checkbox"
-                                        readOnly
-                                        checked={isCompleted}
-                                        onClick={() => handleToglleTask(id)}
-                                    />
-                                    <span className="checkmark"></span>
-                                </label>
-                                <p>{title}</p>
-                            </div>
-
-                            <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(id)}>
-                                <FiTrash size={16} />
-                            </button>
-                        </li>
+                    {tasks.map(task => (
+                        <CurrentTask 
+                            key={task.id} 
+                            task={task}
+                            handleToglleTask={(id: number) => toggleTask(id)} 
+                            handleRemoveTask={(id: number) => removeTask(id)} 
+                        />
                     ))}
                 </ul>
             </main>
