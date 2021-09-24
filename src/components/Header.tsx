@@ -3,6 +3,10 @@ import '../styles/header.scss'
 
 export function Header () {
     return (
-        <h1>Header works!</h1>
+        <header className="header">
+            <div className="header__content">
+                <img src="/logo.svg" alt="to.do logo" />
+            </div>
+        </header>
     )
 }
