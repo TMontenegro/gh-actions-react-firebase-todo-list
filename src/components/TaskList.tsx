@@ -55,8 +55,8 @@ export function TaskList () {
                 <div className="input-group">
                     <input 
                         type="text"
-                        placeholder="Add new task"
-                        data-testid="add-new-task"
+                        placeholder="Finish homework..."
+                        data-testid="new-task-input"
                         onChange={(e) => setNewTaskTitle(e.target.value)}
                         value={newTaskTitle}
                     />

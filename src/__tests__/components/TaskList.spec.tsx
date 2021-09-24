@@ -6,7 +6,7 @@ describe('<TaskList />', () => {
     it('should be able to add a task', async () => {
         render(<TaskList />)
 
-        const taskInput = screen.getByTestId('add-new-task')
+        const taskInput = screen.getByTestId('new-task-input')
         const addTaskButton = screen.getByTestId('add-task-button')
         const mockedTaskTitle = 'First task title'
 
@@ -38,7 +38,7 @@ describe('<TaskList />', () => {
     it('should be able to remove a task', async () => {
         render(<TaskList />)
 
-        const taskInput = screen.getByTestId('add-new-task')
+        const taskInput = screen.getByTestId('new-task-input')
         const addTaskButton = screen.getByTestId('add-task-button')
         const mockedTaskTitle = 'Removable task title'
 
@@ -60,7 +60,7 @@ describe('<TaskList />', () => {
     it('should be able to check a task', async () => {
         render(<TaskList />)
 
-        const taskInput = screen.getByTestId('add-new-task')
+        const taskInput = screen.getByTestId('new-task-input')
         const addTaskButton = screen.getByTestId('add-task-button')
         const mockedTaskTitle = 'Checkable task title'
 
@@ -78,5 +78,34 @@ describe('<TaskList />', () => {
 
         expect(addedCheckableTask).toBeInTheDocument()
         expect(addedCheckableTask).toHaveClass('completed')
+    })
+
+    it('should be able to uncheck a task', async () => {
+        render(<TaskList />)
+
+        const taskInput = screen.getByTestId('new-task-input')
+        const addTaskButton = screen.getByTestId('add-task-button')
+        const mockedTaskTitle = 'Uncheckable task title'
+
+        fireEvent.change(taskInput, {
+            target: {
+                value: mockedTaskTitle
+            }
+        })
+        fireEvent.click(addTaskButton)
+
+        const addedCheckableTask = screen.getByTestId('task')
+        
+        if(addedCheckableTask.firstChild) 
+            fireEvent.click(addedCheckableTask.firstChild)
+
+        expect(addedCheckableTask).toBeInTheDocument()
+        expect(addedCheckableTask).toHaveClass('completed')
+
+        if(addedCheckableTask.firstChild) 
+            fireEvent.click(addedCheckableTask.firstChild)
+
+        expect(addedCheckableTask).toBeInTheDocument()
+        expect(addedCheckableTask).not.toHaveClass('completed')
     })
 })
